@@ -16,7 +16,7 @@ public class Rain implements Parcelable {
         })
         public Rain createFromParcel(Parcel in) {
             Rain instance = new Rain();
-            instance._3h = ((int) in.readValue((int.class.getClassLoader())));
+            instance._3h = ((double) in.readValue((double.class.getClassLoader())));
             return instance;
         }
 
@@ -28,7 +28,7 @@ public class Rain implements Parcelable {
 
     @SerializedName("3h")
     @Expose
-    public int _3h;
+    public double _3h;
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(_3h);

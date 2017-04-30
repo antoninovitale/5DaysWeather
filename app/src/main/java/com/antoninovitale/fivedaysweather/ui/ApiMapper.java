@@ -1,6 +1,7 @@
 package com.antoninovitale.fivedaysweather.ui;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.antoninovitale.fivedaysweather.R;
 import com.antoninovitale.fivedaysweather.api.model.CurrentWeather;
@@ -32,7 +33,12 @@ public class ApiMapper {
             citySummaryModel.temperature = AppUtil.getFormattedTemperature(context,
                     currentWeather.main.temp);
         }
-        citySummaryModel.cityName = currentWeather.name;
+        if (currentWeather.sys != null && !TextUtils.isEmpty(currentWeather.sys.country)) {
+            citySummaryModel.cityName = String.format("%s, %s", currentWeather.name,
+                    currentWeather.sys.country);
+        } else {
+            citySummaryModel.cityName = currentWeather.name;
+        }
         return citySummaryModel;
     }
 

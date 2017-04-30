@@ -1,5 +1,7 @@
 package com.antoninovitale.fivedaysweather.api;
 
+import com.antoninovitale.fivedaysweather.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -20,7 +22,8 @@ public class OpenWeatherMapApi {
     public static OpenWeatherMapApiService getOpenWeatherMapApi() {
         if (openWeatherMapApiService == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY :
+                    HttpLoggingInterceptor.Level.NONE);
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(60, TimeUnit.SECONDS)

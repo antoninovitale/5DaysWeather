@@ -3,7 +3,6 @@ package com.antoninovitale.fivedaysweather.util;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.antoninovitale.fivedaysweather.R;
 
@@ -28,7 +27,7 @@ public class AppUtil {
             sdf.setTimeZone(TimeZone.getDefault());
             return sdf.format(date);
         } catch (Exception e) {
-            Log.d(TAG, "getFormattedDate", e);
+            DebugLog.log(TAG, "getFormattedDate", e);
         }
         return "";
     }
@@ -43,7 +42,7 @@ public class AppUtil {
             nf.setRoundingMode(RoundingMode.HALF_UP);
             return String.format("%s %s", nf.format(value), symbol);
         } catch (Exception e) {
-            Log.d(TAG, "getFormattedValue", e);
+            DebugLog.log(TAG, "getFormattedValue", e);
         }
         return String.format("%s %s", ((int) value), symbol);
     }
@@ -58,7 +57,7 @@ public class AppUtil {
             nf.setRoundingMode(RoundingMode.HALF_UP);
             return String.format("%s %s", nf.format(value), symbol);
         } catch (Exception e) {
-            Log.d(TAG, "getFormattedValue", e);
+            DebugLog.log(TAG, "getFormattedValue", e);
         }
         return String.format(Locale.getDefault(), "%s %s", value, symbol);
     }

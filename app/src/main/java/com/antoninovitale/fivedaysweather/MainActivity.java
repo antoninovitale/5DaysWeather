@@ -19,7 +19,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -34,6 +33,7 @@ import com.antoninovitale.fivedaysweather.ui.model.CitySummaryModel;
 import com.antoninovitale.fivedaysweather.ui.model.WeatherInfoModel;
 import com.antoninovitale.fivedaysweather.util.AppUtil;
 import com.antoninovitale.fivedaysweather.util.Constants;
+import com.antoninovitale.fivedaysweather.util.DebugLog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     REQUEST_LOCATION_PERMISSIONS);
             return;
         }
-        Log.d(TAG, "Periodic location updates started!");
+        DebugLog.log(TAG, "Periodic location updates started!");
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
                 mLocationRequest, this);
     }
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     REQUEST_LOCATION_PERMISSIONS);
             return;
         }
-        Log.d(TAG, "Periodic location updates stopped!");
+        DebugLog.log(TAG, "Periodic location updates stopped!");
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
@@ -338,10 +338,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         getWeatherForecastForLocation.enqueue(new Callback<WeatherForecast>() {
             @Override
             public void onResponse(Call<WeatherForecast> call, Response<WeatherForecast> response) {
-                Log.d(TAG, "onResponse");
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
-                    // tasks available
                     WeatherForecast weatherForecast = response.body();
                     java.util.List<WeatherInfoModel> forecast = ApiMapper.createWeatherInfoModels
                             (MainActivity.this, weatherForecast);
@@ -351,7 +349,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onFailure(Call<WeatherForecast> call, Throwable throwable) {
-                Log.d(TAG, "onFailure", throwable);
+                swipeRefreshLayout.setRefreshing(false);
+                DebugLog.log(TAG, "onFailure", throwable);
             }
         });
     }
@@ -365,7 +364,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         getCurrentWeatherForLocation.enqueue(new Callback<CurrentWeather>() {
             @Override
             public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
-                Log.d(TAG, "onResponse");
                 swipeRefreshLayout.setRefreshing(false);
                 if (response.isSuccessful()) {
                     CurrentWeather currentWeather = response.body();
@@ -377,7 +375,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onFailure(Call<CurrentWeather> call, Throwable throwable) {
-                Log.d(TAG, "onFailure", throwable);
+                swipeRefreshLayout.setRefreshing(false);
+                DebugLog.log(TAG, "onFailure", throwable);
             }
         });
     }
@@ -391,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnected");
+        DebugLog.log(TAG, "onConnected");
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
         }
@@ -399,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended");
+        DebugLog.log(TAG, "onConnectionSuspended");
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
@@ -407,12 +406,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed");
+        DebugLog.log(TAG, "onConnectionFailed");
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d(TAG, "Location: " + location);
+        DebugLog.log(TAG, "Location: " + location);
         lastLatitude = location.getLatitude();
         lastLongitude = location.getLongitude();
     }
@@ -439,7 +438,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.i(TAG, "Place: " + place.getName());
                 LatLng latLng = place.getLatLng();
                 lastLatitude = latLng.latitude;
                 lastLongitude = latLng.longitude;
@@ -448,7 +446,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 startImageLoaderTask();
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
-                Log.i(TAG, status.getStatusMessage());
+                if (status != null && !TextUtils.isEmpty(status.getStatusMessage())) {
+                    DebugLog.log(TAG, status.getStatusMessage());
+                }
             }
         }
     }
@@ -462,13 +462,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     .setFilter(typeFilter).build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
-            Log.d(TAG, "GooglePlayServicesRepairableException", e);
+            DebugLog.log(TAG, "GooglePlayServicesRepairableException", e);
         } catch (GooglePlayServicesNotAvailableException e) {
-            Log.d(TAG, "GooglePlayServicesNotAvailableException", e);
+            DebugLog.log(TAG, "GooglePlayServicesNotAvailableException", e);
         }
     }
 
     private void startImageLoaderTask() {
+        if (imageLoaderTask != null) {
+            imageLoaderTask.cancel(true);
+        }
         imageLoaderTask = new ImageLoaderTask();
         imageLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -486,11 +489,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 searchParams.setTags(new String[]{"weather"});
                 return f.getPhotosInterface().search(searchParams, 1, 1);
             } catch (IOException e) {
-                Log.d(TAG, "IOException", e);
+                DebugLog.log(TAG, "IOException", e);
             } catch (JSONException e) {
-                Log.d(TAG, "JSONException", e);
+                DebugLog.log(TAG, "JSONException", e);
             } catch (FlickrException e) {
-                Log.d(TAG, "FlickrException", e);
+                DebugLog.log(TAG, "FlickrException", e);
             }
             return null;
         }
@@ -508,7 +511,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         });
             } else {
                 mainContent.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color
-                        .colorPrimary));
+                        .blue));
             }
         }
     }
