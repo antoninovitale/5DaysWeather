@@ -7,7 +7,7 @@ App that shows the weather forecast using OpenWeatherMap API
 It makes use of OpenWeatherMap API (https://openweathermap.org/api) to retrieve the weather data and it also uses Flickr API to download a geolocalised image shown as a wallpaper every time a city is selected.<br>
 The city can be selected via the autocomplete search widget provided by the Google Places API (results are filtered and only cities will be shown).<br><br>
 
-You can download the apk file from this <a href="https://github.com/antoninovitale/5DaysWeather/blob/master/fivedaysweather-app-release.apk">link</a>.<br>
+You can download the apk file from this <a href="https://github.com/antoninovitale/5DaysWeather/raw/master/fivedaysweather-app-release.apk">link</a>.<br>
 Once downloaded, you can install the app on your device (unknown sources option must be enabled from settings/security).<br>
 
 Alternatively, you can clone or download this repository and open the project with Android Studio.<br>
