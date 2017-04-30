@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.antoninovitale.fivedaysweather.MainActivity">
+
+    <item
+        android:id="@+id/action_imperial"
+        android:checkable="true"
+        android:checked="false"
+        android:orderInCategory="100"
+        android:title="@string/pref_units_imperial"
+        app:showAsAction="never"/>
+
+</menu>

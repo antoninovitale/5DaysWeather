@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@android:drawable/screen_background_dark_transparent"
+                android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Dublin"/>
+
+    <com.github.pwittchen.weathericonview.WeatherIconView
+        android:id="@+id/ivWeatherIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvDate"
+        android:contentDescription="@string/cd_weathericon"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        custom:weatherIconColor="@android:color/white"
+        custom:weatherIconResource="@string/wi_day_sunny_overcast"
+        custom:weatherIconSize="48"/>
+
+    <TextView
+        android:id="@+id/tvWeatherInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivWeatherIcon"
+        android:layout_alignTop="@+id/ivWeatherIcon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/ivWeatherIcon"
+        android:layout_toRightOf="@+id/ivWeatherIcon"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Partly Cloudy"/>
+
+    <TextView
+        android:id="@+id/tvMaxTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivWeatherIcon"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Max 25"/>
+
+    <TextView
+        android:id="@+id/tvMinTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivWeatherIcon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/tvMaxTemperature"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Min 15"/>
+
+    <TextView
+        android:id="@+id/tvHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivWeatherIcon"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/tvMinTemperature"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Humidity 90%"/>
+
+    <TextView
+        android:id="@+id/tvWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMaxTemperature"
+        android:layout_marginTop="8dp"
+        android:gravity="left|center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="Wind speed 5 m/s"/>
+
+</RelativeLayout>
