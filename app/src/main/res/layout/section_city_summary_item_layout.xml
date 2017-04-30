@@ -27,7 +27,6 @@
         android:layout_below="@+id/tvCityName"
         android:contentDescription="@string/cd_weathericon"
         custom:weatherIconColor="@android:color/white"
-        custom:weatherIconResource="@string/wi_day_sunny_overcast"
         custom:weatherIconSize="48"/>
 
     <TextView
