@@ -12,3 +12,5 @@ Once downloaded, you can install the app on your device (unknown sources option 
 
 Alternatively, you can clone or download this repository and open the project with Android Studio.<br>
 It can be executed on emulators running Android with API level 16+, hence make sure to solve eventual configuration issues in your environment and create an AVD matching that target to run the app.
+<br>You have to <a href="https://console.developers.google.com/">setup a google API project<a/>, enable Google Places and Google Maps API for Android and download the google-services.json file to copy to the app folder of the project.
+<br>Remember to get also an API key for OpenWeatherMap API at this <a href="http://openweathermap.org/appid">link</a> and for Flickr API at this <a href="https://www.flickr.com/services/apps/create/apply/">link</a>.
